@@ -1,25 +1,36 @@
-import React from 'react';
+import React from 'react'
 
-import BlogSummaryCard from '@/components/BlogSummaryCard';
+import BlogSummaryCard from '@/components/BlogSummaryCard'
 
-import styles from './homepage.module.css';
+import { getBlogPostList } from '@/helpers/file-helpers'
 
-function Home() {
-  return (
-    <div className={styles.wrapper}>
-      <h1 className={styles.mainHeading}>
-        Latest Content:
-      </h1>
+import styles from './homepage.module.css'
 
-      {/* TODO: Iterate over the data read from the file system! */}
-      <BlogSummaryCard
-        slug="example"
-        title="Hello world!"
-        abstract="This is a placeholder, an example which shows how the “BlogSummaryCard” component should be used. You'll want to swap this out based on the data from the various MDX files!"
-        publishedOn={new Date()}
-      />
-    </div>
-  );
+export const metadata = {
+  title: `Bits & Bytes`,
+  description: 'A wonderful blog about JavaScript',
 }
 
-export default Home;
+async function Home() {
+  const posts = await getBlogPostList()
+
+  return (
+    <div className={styles.wrapper}>
+      <h1 className={styles.mainHeading}>Latest Content:</h1>
+      {posts?.map((post, index) => {
+        const { slug, title, abstract, publishedOn } = post
+        return (
+          <BlogSummaryCard
+            key={`blogpost-${index}`}
+            slug={slug}
+            title={title}
+            abstract={abstract}
+            publishedOn={publishedOn}
+          />
+        )
+      })}
+    </div>
+  )
+}
+
+export default Home
