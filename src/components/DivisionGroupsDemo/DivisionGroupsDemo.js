@@ -58,16 +58,16 @@ function DivisionGroupsDemo({
         <div className={styles.demoWrapper}>
           <div className={clsx(styles.demoArea)} style={gridStructure}>
             {range(numOfGroups).map((groupIndex) => {
-              const layoutId = `${id}-${groupIndex}`
               return (
                 <div key={groupIndex} className={styles.group}>
                   {range(numOfItemsPerGroup).map((index) => {
-                    const newlayoutid = `${id}-${layoutId}-${index}`
+                    const itemIndex = groupIndex * numOfItemsPerGroup + index
+                    const layoutId = `item-${itemIndex}`
                     return (
                       <motion.div
-                        layoutId={newlayoutid}
+                        layoutId={layoutId}
                         transition={SPRING}
-                        key={newlayoutid}
+                        key={layoutId}
                         className={styles.item}
                       />
                     )
@@ -82,17 +82,20 @@ function DivisionGroupsDemo({
           <div className={styles.remainderArea}>
             <p className={styles.remainderHeading}>Remainder Area</p>
 
-            {range(remainder).map((index) => {
-              const layoutId = `${id}-${index}`
-              return (
-                <motion.div
-                  layoutId={layoutId}
-                  transition={SPRING}
-                  key={layoutId}
-                  className={styles.item}
-                />
-              )
-            })}
+            {range(remainder)
+              .reverse()
+              .map((index) => {
+                const itemIndex = numOfGroups * numOfItemsPerGroup + index
+                const layoutId = `item-${itemIndex}`
+                return (
+                  <motion.div
+                    layoutId={layoutId}
+                    transition={SPRING}
+                    key={layoutId}
+                    className={styles.item}
+                  />
+                )
+              })}
           </div>
         )}
         <Equation

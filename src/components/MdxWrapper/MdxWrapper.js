@@ -2,6 +2,7 @@ import React from 'react'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import dynamic from 'next/dynamic'
 import CodeSnippet from '../CodeSnippet'
+import CircularColorsDemo from '../CircularColorsDemo'
 
 const DivisionGroupsDemo = dynamic(() => import('../DivisionGroupsDemo'))
 
@@ -11,7 +12,8 @@ function MdxWrapper({ content }) {
       source={content}
       components={{
         pre: CodeSnippet,
-        DivisionGroupsDemo: DivisionGroupsDemo,
+        CircularColorsDemo,
+        DivisionGroupsDemo,
       }}
     />
   )
